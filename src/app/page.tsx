@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-6">
       <Image
-        src="/logo.png"
+        src="/logo2.png"
         alt="Beltlane Logo"
         width={200}
         height={100}
