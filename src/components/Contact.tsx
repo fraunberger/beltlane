@@ -5,7 +5,7 @@ export default function Contact() {
     <section className="max-w-3xl mx-auto my-10 p-6 rounded-lg" style={{ background: 'var(--card-background)', color: 'var(--card-foreground)' }}>
       <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
       <p className="mb-6">
-        We'd love to hear from you! Get in touch with us about the Beltlane project.
+        We&apos;d love to hear from you! Get in touch with us about the Beltlane project.
       </p>
       <form className="space-y-4">
         <div>
