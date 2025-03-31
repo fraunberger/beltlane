@@ -14,14 +14,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --card-background: #171717;
-    --card-foreground: #ededed;
-  }
-}
+/* Dark mode disabled - always using light mode */
 
 body {
   background: var(--background);
