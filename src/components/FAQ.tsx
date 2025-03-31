@@ -8,7 +8,7 @@ export default function FAQ() {
   ];
 
   return (
-    <section className="max-w-3xl mx-auto my-10">
+    <section id="faq" className="max-w-3xl mx-auto my-10">
       <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
       {questions.map(({ q, a }, idx) => (
         <details key={idx} className="border-b py-3">

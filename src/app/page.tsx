@@ -3,10 +3,13 @@ import Image from 'next/image';
 import TallyForm from "@/components/TallyForm";
 import FAQ from "@/components/FAQ";
 import About from "@/components/About";
+import Nav from "@/components/Nav";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-2">
+    <>
+      <Nav />
+      <main className="flex min-h-screen flex-col items-center pt-16 p-2">
       <Image
         src="/logo2.png"
         alt="Beltlane Logo"
@@ -18,6 +21,7 @@ export default function Home() {
       <About />
       <FAQ />
     </main>
+    </>
   );
 }
 
