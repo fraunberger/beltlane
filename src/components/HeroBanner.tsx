@@ -23,12 +23,13 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
   }, []);
 
   return (
-    <div className={`bg-background p-8 flex justify-center ${className || ''}`}>
+    <div className={`bg-background w-full flex justify-center items-center ${className || ''} pt-16 sm:pt-20 md:pt-8 pb-4 sm:pb-8 px-2 sm:px-4 md:px-8`}>
       <svg
         viewBox="0 0 1200 300"
-        className="w-full max-w-[1200px] h-auto block"
+        className="w-full max-w-full md:max-w-[1200px] h-auto block"
         role="img"
         aria-label="Beltlane: the pulse of ATL"
+        preserveAspectRatio="xMidYMid meet"
       >
         <defs>
           <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -36,6 +37,11 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
             <stop offset="40%" stopColor="#F7941D" />
             <stop offset="65%" stopColor="#EB5F1E" />
             <stop offset="100%" stopColor="#F5D63A" />
+          </linearGradient>
+          
+          <linearGradient id="spikeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FFE066" />
+            <stop offset="100%" stopColor="#F7941D" />
           </linearGradient>
           
           <filter id="mainTextShadow">
@@ -74,6 +80,44 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
           
           <filter id="offsetNeg4" x="-20%" y="-20%" width="140%" height="140%">
             <feMorphology operator="erode" radius="32" in="SourceGraphic" result="thin" />
+          </filter>
+          
+          {/* Vertical spike filter with targeted points */}
+          <filter id="verticalSpikes" x="-30%" y="-30%" width="160%" height="160%">
+            {/* Create a high-contrast noise pattern for spikes */}
+            <feTurbulence 
+              type="fractalNoise" 
+              baseFrequency="0.05 0.015" 
+              numOctaves="1" 
+              seed="13" 
+              stitchTiles="stitch"
+              result="noise"
+              className="pulse-turbulence">
+              <animate 
+                attributeName="baseFrequency" 
+                from="0.05 0.015" 
+                to="0.05 0.005" 
+                dur="10s" 
+                repeatCount="indefinite" 
+              />
+            </feTurbulence>
+            
+            {/* Threshold the noise to create distinct points */}
+            <feComponentTransfer in="noise" result="threshold">
+              <feFuncR type="linear" slope="5" intercept="-2"/>
+              <feFuncG type="linear" slope="5" intercept="-2"/>
+              <feFuncB type="linear" slope="5" intercept="-2"/>
+              <feFuncA type="linear" slope="0" intercept="1"/>
+            </feComponentTransfer>
+            
+            {/* Create large vertical displacement only at spike points */}
+            <feDisplacementMap 
+              in="SourceGraphic" 
+              in2="threshold" 
+              scale="80" 
+              xChannelSelector="R" 
+              yChannelSelector="G" 
+            />
           </filter>
           
           {/* Wave pulse displacement filters - AMPLIFIED */}
@@ -131,58 +175,16 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
             />
           </filter>
           
-          {/* Rapid pulse with prominent peaks */}
-          <filter id="pulseDisplacement3" x="-30%" y="-30%" width="160%" height="160%">
-            <feTurbulence 
-              type="fractalNoise" 
-              baseFrequency="0.02 0.002" 
-              numOctaves="2" 
-              seed="7" 
-              stitchTiles="stitch"
-              result="turbulence"
-              className="pulse-turbulence">
-              <animate 
-                attributeName="baseFrequency" 
-                from="0.02 0.002" 
-                to="0.02 0.05" 
-                dur="5s" 
-                repeatCount="indefinite" 
-              />
-            </feTurbulence>
-            <feDisplacementMap 
-              in="SourceGraphic" 
-              in2="turbulence" 
-              scale="35" 
-              xChannelSelector="R" 
-              yChannelSelector="G" 
-            />
+          {/* Create glowing spikes effect */}
+          <filter id="glowSpikes" x="-30%" y="-30%" width="160%" height="160%">
+            {/* Create a glow effect */}
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
           </filter>
           
-          {/* Slow dramatic wave with large amplitude */}
-          <filter id="pulseDisplacement4" x="-30%" y="-30%" width="160%" height="160%">
-            <feTurbulence 
-              type="fractalNoise" 
-              baseFrequency="0.01 0.002" 
-              numOctaves="2" 
-              seed="11" 
-              stitchTiles="stitch"
-              result="turbulence"
-              className="pulse-turbulence">
-              <animate 
-                attributeName="baseFrequency" 
-                from="0.01 0.002" 
-                to="0.01 0.04" 
-                dur="10s" 
-                repeatCount="indefinite" 
-              />
-            </feTurbulence>
-            <feDisplacementMap 
-              in="SourceGraphic" 
-              in2="turbulence" 
-              scale="50" 
-              xChannelSelector="R" 
-              yChannelSelector="G" 
-            />
+          {/* Shadow for vertical spikes */}
+          <filter id="spikeShadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/>
           </filter>
           
           <style type="text/css">
@@ -203,12 +205,15 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
                 filter: url(#pulseDisplacement2);
               }
               
-              .wave-pulse-3 {
-                filter: url(#pulseDisplacement3);
+              .spike-layer {
+                filter: url(#verticalSpikes);
               }
               
-              .wave-pulse-4 {
-                filter: url(#pulseDisplacement4);
+              .vertical-spike {
+                stroke: url(#spikeGradient);
+                stroke-width: 2;
+                fill: none;
+                filter: url(#glowSpikes);
               }
               
               .main-text {
@@ -334,11 +339,59 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
               filter="url(#offset4)"
             />
           </g>
+          
+          {/* Add vertical spike layer */}
+          <g className="spike-layer">
+            <path 
+              className="wave-path vertical-spike"
+              d={wavePath}
+              style={{ opacity: 0.6, strokeWidth: 1.5 }}
+              filter="url(#spikeShadow)"
+            />
+          </g>
+          
+          {/* Individual vertical spikes with staggered animations */}
+          <g>
+            {/* Spike 1 */}
+            <path 
+              d="M300,280 L300,130" 
+              className="vertical-spike vertical-spike-animate"
+              style={{ opacity: 0.7, strokeWidth: 3, animationDelay: "0s" }}
+            />
+            
+            {/* Spike 2 */}
+            <path 
+              d="M450,230 L450,80" 
+              className="vertical-spike vertical-spike-animate"
+              style={{ opacity: 0.8, strokeWidth: 4, animationDelay: "0.5s" }}
+            />
+            
+            {/* Spike 3 */}
+            <path 
+              d="M600,260 L600,110" 
+              className="vertical-spike vertical-spike-animate"
+              style={{ opacity: 0.7, strokeWidth: 3, animationDelay: "1.2s" }}
+            />
+            
+            {/* Spike 4 */}
+            <path 
+              d="M750,240 L750,90" 
+              className="vertical-spike vertical-spike-animate"
+              style={{ opacity: 0.9, strokeWidth: 4, animationDelay: "1.8s" }}
+            />
+            
+            {/* Spike 5 */}
+            <path 
+              d="M900,270 L900,120" 
+              className="vertical-spike vertical-spike-animate"
+              style={{ opacity: 0.8, strokeWidth: 3, animationDelay: "0.8s" }}
+            />
+          </g>
         </g>
         
         {/* Main text - un-rotated */}
         <g>
-          <text className="main-text" x="50%" y="55%" textAnchor="middle" fontSize="85" fill="#1d2f35" letterSpacing="5">
+          <text className="main-text" x="50%" y="55%" textAnchor="middle" fontSize="85" fill="#1d2f35" letterSpacing="3">
             BELTLANE
           </text>
         </g>
@@ -350,10 +403,10 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
             {/* Shadow/offset text for 3D effect */}
             <text 
               className="pulse-text pulse-text-shadow"
-              x="-131"
+              x="-101"
               y="-9"
               textAnchor="middle"
-              fontSize="30"
+              fontSize="34"
             >
               the pulse of ATL
             </text>
@@ -361,10 +414,10 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
             {/* Main text with yellow outline */}
             <text 
               className="pulse-text pulse-text-outline"
-              x="-130"
+              x="-100"
               y="-7" 
               textAnchor="middle"
-              fontSize="30"
+              fontSize="34"
             >
               the pulse of ATL
             </text>
