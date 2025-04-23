@@ -19,7 +19,6 @@ export default function Nav() {
           <Link href="/about" className="hover:opacity-75 transition-opacity">About</Link>
           <Link href="/faq" className="hover:opacity-75 transition-opacity">FAQ</Link>
           <Link href="/contact" className="hover:opacity-75 transition-opacity">Contact</Link>
-          <Link href="/path-test" className="hover:opacity-75 transition-opacity">Path Test</Link>
         </div>
       </div>
     </nav>
