@@ -12,7 +12,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
     <div className={`bg-background p-8 flex justify-center ${className || ''}`}>
       <svg
         viewBox="0 0 1200 300"
-        className="w-full max-w-[800px] h-auto block"
+        className="w-full max-w-[1200px] h-auto block"
         role="img"
         aria-label="Beltlane: the pulse of ATL"
       >
@@ -193,8 +193,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
             {/* Shadow/offset text for 3D effect */}
             <text 
               className="pulse-text pulse-text-shadow"
-              x="-153"
-              y="13"
+              x="-131"
+              y="-9"
               textAnchor="middle"
               fontSize="30"
             >
@@ -204,8 +204,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ className }) => {
             {/* Main text with yellow outline */}
             <text 
               className="pulse-text pulse-text-outline"
-              x="-150"
-              y="15" 
+              x="-130"
+              y="-7" 
               textAnchor="middle"
               fontSize="30"
             >
