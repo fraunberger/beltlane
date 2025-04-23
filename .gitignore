@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# test routes
+/src/app/path-test
+/src/components/PathClipMethod.tsx
+/src/components/PathStrokeWidthMethod.tsx
+/src/components/PathFillMethod.tsx

@@ -1,15 +1,20 @@
 // app/page.tsx
+'use client';
+
+import React from 'react';
+import { HeroBanner } from '../components/HeroBanner';
 import TallyForm from "@/components/TallyForm";
 import Nav from "@/components/Nav";
 
-export default function Home() {
+export default function Home(): JSX.Element {
   return (
-    <>
-      <Nav />
-      <main className="flex min-h-screen flex-col items-center justify-center py-8 px-4">
+    <main className="min-h-screen flex flex-col bg-background text-text font-sans ">
+      <HeroBanner />
+      <section className="flex-1 p-4 max-w-7xl mx-auto w-full flex flex-col gap-4">
+        <Nav />
         <TallyForm />
-      </main>
-    </>
+      </section>
+    </main>
   );
 }
 
